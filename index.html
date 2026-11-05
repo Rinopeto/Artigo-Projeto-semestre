@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Artigo técnico sobre o desenvolvimento, a arquitetura, o banco de dados e o funcionamento do DevClash.">
+  <title>DevClash | Artigo Técnico do Projeto</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="largura topbar-inner">
+      <a class="marca" href="#inicio" aria-label="DevClash, voltar ao início"><span class="marca-sinal">&gt;_</span> Dev<span class="marca-destaque">Clash</span></a>
+      <nav class="top-nav" aria-label="Navegação principal">
+        <a href="#sumario">Conteúdo</a>
+        <a href="#autoria">Autores <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <section id="inicio" class="capa" aria-labelledby="titulo-artigo">
+    <div class="largura hero-layout">
+      <div class="hero-copy">
+        <div class="hero-kicker"><span class="kicker-line"></span> ARTIGO TÉCNICO <span class="kicker-dot"></span> DOCUMENTAÇÃO DO PROJETO</div>
+        <h1 id="titulo-artigo">DevClash<span class="titulo-ponto">.</span><span class="hero-subtitle">Um quiz educacional com arquitetura web e banco de dados relacional.</span></h1>
+        <p class="hero-description">Da interface ao PostgreSQL: uma visão completa da proposta, das regras de negócio, do modelo de dados e da integração entre os componentes.</p>
+        <div class="metadados" aria-label="Tecnologias abordadas">
+          <span>HTML · CSS · JavaScript</span>
+          <span>Node.js · Express</span>
+          <span>PostgreSQL</span>
+        </div>
+      </div>
+      <aside class="hero-panel" aria-label="Resumo da arquitetura do sistema">
+        <div class="panel-top"><span class="panel-dots" aria-hidden="true"><i></i><i></i><i></i></span><code>architecture/overview</code></div>
+        <div class="panel-content">
+          <div class="panel-title">Como tudo se conecta</div>
+          <div class="stack-row"><span class="stack-icon" aria-hidden="true">01</span><div><b>Interface web</b><small>Frontend · HTML / CSS / JS</small></div><span class="stack-symbol" aria-hidden="true">↗</span></div>
+          <div class="stack-connector" aria-hidden="true"></div>
+          <div class="stack-row"><span class="stack-icon" aria-hidden="true">02</span><div><b>API HTTP</b><small>Backend · Node.js / Express</small></div><span class="stack-symbol" aria-hidden="true">↗</span></div>
+          <div class="stack-connector" aria-hidden="true"></div>
+          <div class="stack-row"><span class="stack-icon" aria-hidden="true">03</span><div><b>Dados</b><small>PostgreSQL · 7 tabelas</small></div><span class="stack-symbol" aria-hidden="true">✓</span></div>
+        </div>
+        <div class="panel-bottom"><span class="status-pulse" aria-hidden="true"></span> Estrutura documentada</div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="metrics-band" aria-label="Resumo do projeto">
+    <div class="largura metrics-inner">
+      <div class="metric"><strong>45</strong><span>questões na versão documentada</span></div>
+      <div class="metric"><strong>07</strong><span>tabelas relacionais</span></div>
+      <div class="metric"><strong>50<span class="metric-unit">s</span></strong><span>por pergunta</span></div>
+    </div>
+  </div>
+
+  <main class="largura page-shell">
+      <nav id="sumario" class="sumario" aria-label="Sumário do artigo">
+        <h2>Sumário</h2>
+        <ol>
+          <li><a href="#resumo">Resumo</a></li>
+          <li><a href="#introducao">Introdução</a></li>
+          <li><a href="#objetivos">Objetivos</a></li>
+          <li><a href="#metodologia">Metodologia</a></li>
+          <li><a href="#arquitetura">Arquitetura do sistema</a></li>
+          <li><a href="#funcionamento">Funcionamento do quiz</a></li>
+          <li><a href="#banco">Modelagem do banco de dados</a></li>
+          <li><a href="#integridade">Integridade e normalização</a></li>
+          <li><a href="#api">API e consultas SQL</a></li>
+          <li><a href="#hospedagem">Infraestrutura e hospedagem</a></li>
+          <li><a href="#seguranca">Segurança e limitações</a></li>
+          <li><a href="#conclusao">Considerações finais</a></li>
+          <li><a href="#referencias">Referências</a></li>
+          <li><a href="#autoria">Autoria</a></li>
+        </ol>
+      </nav>
+    <article class="artigo">
+      <section id="resumo">
+        <h2>Resumo</h2>
+        <p>O DevClash é uma aplicação web educacional desenvolvida para apoiar a revisão de conhecimentos relacionados a SQL, PostgreSQL, modelagem de dados e temas de tecnologia. O sistema apresenta perguntas de múltipla escolha, cronômetro, pontuação variável, explicações após cada resposta e classificação dos participantes. A solução utiliza HTML, CSS e JavaScript no frontend; Node.js e Express no backend; e PostgreSQL para armazenar perguntas, jogadores, partidas e respostas. Sua modelagem relacional distribui as informações em sete tabelas, com chaves e restrições destinadas a manter a consistência dos dados. Este artigo documenta a implementação descrita nos materiais técnicos do projeto, incluindo funcionamento, estrutura, integração, implantação e limitações identificadas.</p>
+        <p class="palavras"><strong>Palavras-chave:</strong> DevClash; quiz educacional; JavaScript; Node.js; PostgreSQL; modelagem relacional; API REST.</p>
+      </section>
+
+      <section id="introducao">
+        <h2>1. Introdução</h2>
+        <p>A aprendizagem de conteúdos técnicos exige prática frequente e retorno claro sobre os erros. Em temas como linguagem SQL e bancos de dados, a resolução de questões pode ajudar a identificar dificuldades e consolidar conceitos. O DevClash foi desenvolvido com essa finalidade, transformando exercícios de revisão em uma experiência interativa.</p>
+        <p>Além da proposta educacional, o projeto demonstra como integrar componentes de uma aplicação web: a interface apresentada ao usuário, a lógica de uma API HTTP e um banco de dados relacional. O jogador interage pelo navegador, enquanto o servidor consulta perguntas e registra resultados quando a conexão está disponível.</p>
+      </section>
+
+      <section id="objetivos">
+        <h2>2. Objetivos do projeto</h2>
+        <h3>2.1 Objetivo geral</h3>
+        <p>Desenvolver um quiz web para exercitar conhecimentos de tecnologia, corrigir respostas, calcular pontuações e apresentar o desempenho dos jogadores.</p>
+        <h3>2.2 Objetivos específicos</h3>
+        <ul>
+          <li>Disponibilizar perguntas objetivas organizadas por categoria e dificuldade.</li>
+          <li>Aplicar limite de tempo e fornecer explicação após cada resposta.</li>
+          <li>Registrar jogadores, partidas e respostas em um banco PostgreSQL.</li>
+          <li>Exibir um ranking baseado na melhor partida de cada jogador.</li>
+          <li>Manter perguntas locais como alternativa em caso de indisponibilidade da API.</li>
+          <li>Oferecer uma interface responsiva com o mascote Claudinho.</li>
+        </ul>
+      </section>
+
+      <section id="metodologia">
+        <h2>3. Metodologia de desenvolvimento e documentação</h2>
+        <p>O projeto foi organizado em três componentes: frontend, backend e banco de dados. As telas e a interação foram construídas com tecnologias web nativas; a API foi estruturada com Express; e o modelo de persistência utiliza tabelas relacionais do PostgreSQL.</p>
+        <p>Este artigo foi elaborado a partir dos documentos <em>Documentação completa do projeto</em> e <em>Documentação completa do projeto — DDL e DDM</em>. Os dados apresentados se referem à versão descrita nesses materiais. Eles foram produzidos a partir da inspeção do código e não comprovam, por si só, testes completos no ambiente de produção.</p>
+      </section>
+
+      <section id="arquitetura">
+        <h2>4. Arquitetura do sistema</h2>
+        <p>A aplicação separa as responsabilidades entre a interface web, a API e a base de dados. O frontend exibe as perguntas, controla o tempo, calcula os pontos e apresenta a experiência visual. O backend recebe requisições HTTP, valida dados e utiliza o pacote <code>pg</code> para acessar o PostgreSQL.</p>
+        <div class="fluxo" aria-label="Fluxo geral: navegador, API e banco de dados">
+          <span>Navegador (HTML, CSS e JS)</span><b>→</b>
+          <span>API (Node.js e Express)</span><b>→</b>
+          <span>PostgreSQL</span>
+        </div>
+        <p>Quando o serviço remoto de perguntas não responde, o frontend pode carregar questões locais presentes em <code>js/questions.js</code>. O ranking local é mantido temporariamente com <code>sessionStorage</code>; a preferência de áudio utiliza <code>localStorage</code>.</p>
+        <div class="grid">
+          <div class="cartao"><strong>Frontend</strong><span>HTML5, CSS3 e JavaScript</span></div>
+          <div class="cartao"><strong>Backend</strong><span>Node.js e Express</span></div>
+          <div class="cartao"><strong>Dados</strong><span>PostgreSQL e SQL</span></div>
+        </div>
+      </section>
+
+      <section id="funcionamento">
+        <h2>5. Funcionamento do DevClash</h2>
+        <p>O participante informa um nome de até 20 caracteres e inicia o quiz. A versão analisada pelos documentos reúne 45 questões, das quais 5 são identificadas como bônus. As questões são preparadas e apresentadas por dificuldade, com alternativas embaralhadas. A sinalização de bônus não adiciona um multiplicador de pontos.</p>
+        <p>Cada pergunta tem 50 segundos. Após a confirmação de uma resposta, o sistema informa o acerto ou erro, apresenta uma explicação e disponibiliza a fonte correspondente. Ao fim da partida, mostra os totais e tenta registrar o resultado no servidor.</p>
+        <h3>5.1 Regras de pontuação</h3>
+        <div class="tabela">
+          <table>
+            <thead><tr><th>Tempo restante ao acertar</th><th>Pontuação</th></tr></thead>
+            <tbody>
+              <tr><td>40 segundos ou mais</td><td>10 pontos</td></tr>
+              <tr><td>De 35 a menos de 40 segundos</td><td>8 pontos</td></tr>
+              <tr><td>De 25 a menos de 35 segundos</td><td>6 pontos</td></tr>
+              <tr><td>De 15 a menos de 25 segundos</td><td>4 pontos</td></tr>
+              <tr><td>Mais de 0 e menos de 15 segundos</td><td>3 pontos</td></tr>
+              <tr><td>Resposta incorreta</td><td>1 ponto</td></tr>
+              <tr><td>Tempo esgotado</td><td>0 ponto</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>A pontuação máxima teórica de uma rodada com 45 questões é de 450 pontos. O ranking remoto considera a melhor partida de cada jogador; no desempate, prioriza o menor tempo total e, depois, a partida mais antiga.</p>
+        <h3>5.2 Mascote Claudinho</h3>
+        <p>O mascote Claudinho participa da experiência por meio de expressões, reações e mensagens relacionadas aos eventos do jogo. A documentação também descreve a reprodução opcional de clipes de áudio em MP3, com controle de preferência pelo usuário.</p>
+      </section>
+
+      <section id="banco">
+        <h2>6. Modelagem do banco de dados</h2>
+        <p>O banco do DevClash utiliza o PostgreSQL e possui sete tabelas. Sua estrutura pode ser dividida em dois conjuntos: conteúdo do quiz (categorias, fontes, questões e alternativas) e histórico do usuário (jogadores, partidas e respostas).</p>
+        <div class="tabela">
+          <table>
+            <thead><tr><th>Tabela</th><th>Principais campos</th><th>Responsabilidade</th></tr></thead>
+            <tbody>
+              <tr><td><code>categorias_perguntas</code></td><td><code>id</code>, <code>nome</code></td><td>Organizar os temas das questões.</td></tr>
+              <tr><td><code>fontes</code></td><td><code>id</code>, <code>nome</code>, <code>url</code></td><td>Guardar referências das explicações.</td></tr>
+              <tr><td><code>questao_quiz</code></td><td><code>id</code>, <code>categoria_id</code>, <code>pergunta</code>, <code>explicacao</code>, <code>dificuldade_pergunta</code>, <code>fonte_id</code>, <code>pergunta_bonus</code>, <code>ativo</code></td><td>Armazenar enunciados e características das questões.</td></tr>
+              <tr><td><code>opcoes_perguntas</code></td><td><code>id</code>, <code>id_pergunta</code>, <code>posicao_pergunta</code>, <code>alternativas</code>, <code>esta_correto</code></td><td>Registrar alternativas e indicação de resposta correta.</td></tr>
+              <tr><td><code>jogadores</code></td><td><code>id</code>, <code>nome</code>, <code>criado_em</code></td><td>Identificar participantes pelo nome.</td></tr>
+              <tr><td><code>dados_partidas</code></td><td><code>id</code>, <code>jogador_id</code>, <code>nome_jogador</code>, <code>pontuacao_total</code>, <code>tempo_total</code></td><td>Guardar o resumo de cada partida.</td></tr>
+              <tr><td><code>registro_perguntas</code></td><td><code>id</code>, <code>id_partida</code>, <code>pergunta_id</code>, <code>posicao_selecionada</code>, <code>status</code>, <code>pontos</code>, <code>tempo_gasto</code></td><td>Guardar cada resposta, o tempo e a pontuação.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figure>
+          <img src="der-devclash.png" alt="Diagrama entidade-relacionamento do DevClash, com sete tabelas e suas associações." loading="lazy">
+          <figcaption>Figura 1 — DER do projeto fornecido pela equipe.</figcaption>
+        </figure>
+        <p>Os relacionamentos principais seguem a cardinalidade um-para-muitos (1:N): uma categoria pode conter várias questões, uma questão pode possuir várias alternativas e um jogador pode ter várias partidas. A tabela <code>registro_perguntas</code> conecta as respostas às partidas e às questões.</p>
+      </section>
+
+      <section id="integridade">
+        <h2>7. Integridade referencial e normalização</h2>
+        <p>O modelo utiliza chaves primárias (<code>PRIMARY KEY</code>) para identificar registros e chaves estrangeiras (<code>FOREIGN KEY</code>) para ligar as tabelas. Restrições <code>NOT NULL</code>, <code>UNIQUE</code> e <code>CHECK</code> controlam valores obrigatórios, unicidade e limites permitidos.</p>
+        <ul>
+          <li><code>UNIQUE (id_pergunta, posicao_pergunta)</code> impede duas opções na mesma posição dentro de uma questão.</li>
+          <li>Um índice único parcial permite no máximo uma alternativa marcada como correta por questão.</li>
+          <li><code>UNIQUE (id_partida, pergunta_id)</code> impede registrar a mesma questão duas vezes na mesma partida.</li>
+          <li>Uma chave estrangeira composta verifica se a opção escolhida pertence à questão respondida.</li>
+          <li><code>ON DELETE CASCADE</code> remove opções quando a questão é excluída e remove registros quando a partida é excluída.</li>
+        </ul>
+        <p>A separação das entidades reduz duplicações e facilita a organização dos dados. Entretanto, a documentação identifica informações redundantes: <code>dados_partidas.nome_jogador</code> repete o nome do jogador, enquanto <code>questao_quiz.nome_fonte</code> e <code>questao_quiz.url_fonte</code> repetem dados da tabela <code>fontes</code>. Por isso, não se deve afirmar que o esquema inteiro satisfaz rigorosamente a terceira forma normal sem uma análise adicional.</p>
+      </section>
+
+      <section id="api">
+        <h2>8. API HTTP e consultas SQL</h2>
+        <p>A API utiliza JSON para a comunicação com o navegador. Entre suas responsabilidades estão carregar perguntas, receber resultados, consultar o ranking e verificar a conexão com o banco.</p>
+        <div class="tabela">
+          <table>
+            <thead><tr><th>Método</th><th>Rota</th><th>Finalidade</th></tr></thead>
+            <tbody>
+              <tr><td><code>GET</code></td><td><code>/api/health</code></td><td>Verificar disponibilidade da aplicação e do PostgreSQL.</td></tr>
+              <tr><td><code>GET</code></td><td><code>/api/questions?limit=45</code></td><td>Obter questões ativas para a partida.</td></tr>
+              <tr><td><code>POST</code></td><td><code>/api/matches</code></td><td>Validar e registrar uma partida.</td></tr>
+              <tr><td><code>GET</code></td><td><code>/api/ranking?limit=10&amp;player=Nome</code></td><td>Consultar as melhores partidas e a posição do jogador.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>8.1 Exemplo de DDL</h3>
+        <p>O comando <code>CREATE TABLE</code> é utilizado no script <code>schema.sql</code> para definir as tabelas e suas regras. O exemplo abaixo corresponde à definição da tabela de jogadores descrita na documentação:</p>
+        <pre><code>CREATE TABLE IF NOT EXISTS jogadores (
+  id        SERIAL PRIMARY KEY,
+  nome      TEXT NOT NULL UNIQUE
+            CHECK (char_length(nome) BETWEEN 1 AND 20),
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT now()
+);</code></pre>
+        <h3>8.2 Exemplos de SELECT</h3>
+        <p>As consultas abaixo ajudam a verificar o conteúdo armazenado e os resultados das partidas:</p>
+        <pre><code>-- Contar questões cadastradas e sinalizadas como bônus
+SELECT COUNT(*) AS total,
+       COUNT(*) FILTER (WHERE pergunta_bonus) AS bonus
+FROM questao_quiz;
+
+-- Conferir quantidade de alternativas por questão
+SELECT q.id,
+       COUNT(o.id) AS alternativas,
+       COUNT(*) FILTER (WHERE o.esta_correto) AS corretas
+FROM questao_quiz q
+LEFT JOIN opcoes_perguntas o ON o.id_pergunta = q.id
+GROUP BY q.id
+ORDER BY q.id;
+
+-- Consultar as dez partidas mais recentes
+SELECT id, nome_jogador, pontuacao_total,
+       tempo_total, terminou_em
+FROM dados_partidas
+ORDER BY terminou_em DESC
+LIMIT 10;</code></pre>
+        <p>Para montar o ranking remoto, a implementação documentada utiliza <code>DISTINCT ON (jogador_id)</code> para selecionar a melhor partida de cada participante e <code>ROW_NUMBER()</code> para calcular as posições.</p>
+        <h3>8.3 Gravação das partidas</h3>
+        <p>Na rota <code>POST /api/matches</code>, o servidor valida nome, identificadores de questões, respostas, status, pontuação e tempo informado. A gravação utiliza uma transação para salvar jogador, partida e registros de respostas em conjunto. Em caso de falha, a transação pode ser revertida com <code>ROLLBACK</code>, evitando registros parciais.</p>
+      </section>
+
+      <section id="hospedagem">
+        <h2>9. Infraestrutura e hospedagem</h2>
+        <p>No ambiente de hospedagem informado pela equipe, o frontend fica no GitHub Pages, o backend Node.js/Express é executado no Render e o banco PostgreSQL é gerenciado pelo Supabase. Essas plataformas desempenham funções distintas na aplicação.</p>
+        <div class="tabela">
+          <table>
+            <thead><tr><th>Plataforma</th><th>Responsabilidade</th></tr></thead>
+            <tbody>
+              <tr><td>GitHub Pages</td><td>Publicação dos arquivos estáticos HTML, CSS e JavaScript.</td></tr>
+              <tr><td>Render</td><td>Hospedagem da API Node.js/Express.</td></tr>
+              <tr><td>Supabase</td><td>Hospedagem e gerenciamento do banco PostgreSQL.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>A interface faz requisições ao endereço público da API. O servidor recebe essas solicitações e acessa o banco com as credenciais definidas em variáveis de ambiente, sem disponibilizar a senha de conexão no JavaScript do navegador. A documentação técnica inclui um arquivo <code>render.yaml</code> e descreve as variáveis <code>DATABASE_URL</code>, <code>DATABASE_SSL</code>, <code>CORS_ORIGIN</code> e <code>PORT</code>.</p>
+      </section>
+
+      <section id="seguranca">
+        <h2>10. Segurança, acessibilidade e limitações</h2>
+        <p>Entre os cuidados registrados na versão documentada estão consultas SQL parametrizadas, validação de entradas recebidas pela API, limite do corpo JSON e uso de transações no armazenamento. A interface apresenta componentes nativos, mensagens de feedback e regras CSS para telas menores e redução de animações.</p>
+        <p>Existem, contudo, limitações importantes. O nome do jogador não é uma autenticação, a API expõe o campo <code>correctAnswer</code> ao cliente e o servidor não recalcula integralmente a pontuação a partir de um cronômetro confiável. A versão descrita também não inclui uma proteção específica contra excesso de requisições. Essas condições não impedem o uso educativo, mas exigem atenção caso o ranking seja usado em competições com necessidade de impedir trapaças.</p>
+        <p class="nota"><strong>Limite da análise:</strong> os PDFs registram verificações de código e propõem testes funcionais. Eles não comprovam a execução de todos esses testes com o banco remoto em produção. Alterações feitas depois da versão documentada precisam ser verificadas no código atual.</p>
+      </section>
+
+      <section id="conclusao">
+        <h2>11. Considerações finais</h2>
+        <p>O DevClash reúne recursos de aprendizagem interativa com conceitos fundamentais de desenvolvimento web e bancos de dados relacionais. A divisão entre interface, API e PostgreSQL permite demonstrar a comunicação entre camadas, enquanto a organização em sete tabelas evidencia o uso de chaves, relacionamentos e restrições de integridade.</p>
+        <p>Além de apresentar questões e resultados, o projeto serve como exemplo prático de persistência de dados, execução de consultas SQL, tratamento de respostas HTTP e utilização de um banco relacional. Os pontos de melhoria identificados mostram oportunidades de evolução sem descaracterizar a proposta inicial: oferecer uma ferramenta acessível para revisar conhecimentos técnicos de maneira dinâmica.</p>
+      </section>
+
+      <section id="referencias">
+        <h2>Referências</h2>
+        <ol>
+          <li><strong>DEVCLASH.</strong> <em>Documentação completa do projeto.</em> Documento técnico fornecido pela equipe.</li>
+          <li><strong>DEVCLASH.</strong> <em>Documentação completa do projeto — DDL e DDM.</em> Documento técnico fornecido pela equipe.</li>
+          <li><strong>DEVCLASH.</strong> Arquivos de referência citados na documentação: <code>devclash/js/script.js</code>, <code>devclash/js/questions.js</code>, <code>devclash/backend/src/app.js</code>, <code>devclash/backend/schema.sql</code> e <code>devclash/backend/seed.sql</code>.</li>
+        </ol>
+      </section>
+
+      <section id="autoria" class="authors" aria-labelledby="autoria-titulo">
+        <div class="section-kicker">PESSOAS POR TRÁS DO PROJETO</div>
+        <h2 id="autoria-titulo">Autoria <span class="heading-marker">/</span> Integrantes</h2>
+        <p>Conheça os integrantes responsáveis pelo desenvolvimento e pela documentação do DevClash. Acesse os perfis para ver outros projetos publicados por cada autor.</p>
+        <div class="authors-grid">
+          <div class="author-card">
+            <div class="author-title"><span class="author-index">01</span><h3>Enrico Monteiro de Andrade</h3></div>
+            <a href="https://github.com/Rinopeto" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Enrico Monteiro de Andrade">GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="author-card">
+            <div class="author-title"><span class="author-index">02</span><h3>Bruno Seiti Ota</h3></div>
+            <a href="https://github.com/Brun0cj" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Bruno Seiti Ota">GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="author-card">
+            <div class="author-title"><span class="author-index">03</span><h3>Matheus Alves da Silva</h3></div>
+            <a href="https://github.com/matheussilvacsbrazcubas" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Matheus Alves da Silva">GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="author-card">
+            <div class="author-title"><span class="author-index">04</span><h3>Gabriel Tavares Moura Dias</h3></div>
+            <a href="https://github.com/Gabrix01" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Gabriel Tavares Moura Dias">GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="author-card">
+            <div class="author-title"><span class="author-index">05</span><h3>Eduardo Elioterio de Oliveira</h3></div>
+            <a href="https://github.com/wilkenoliver" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Eduardo Elioterio de Oliveira">GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="largura footer-inner">
+      <span class="footer-brand"><span>&gt;_</span> DevClash</span>
+      <span>Artigo técnico e documentação do projeto · Ciência da Computação</span>
+      <a href="#inicio">Voltar ao início ↑</a>
+    </div>
+  </footer>
+</body>
+</html>
