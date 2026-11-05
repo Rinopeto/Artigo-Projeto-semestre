@@ -47,7 +47,7 @@
 
   <div class="metrics-band" aria-label="Resumo do projeto">
     <div class="largura metrics-inner">
-      <div class="metric"><strong>45</strong><span>questões na versão documentada</span></div>
+      <div class="metric"><strong>50</strong><span>40 sobre SQL + 10 bônus de história da tecnologia</span></div>
       <div class="metric"><strong>07</strong><span>tabelas relacionais</span></div>
       <div class="metric"><strong>50<span class="metric-unit">s</span></strong><span>por pergunta</span></div>
     </div>
@@ -76,7 +76,7 @@
     <article class="artigo">
       <section id="resumo">
         <h2>Resumo</h2>
-        <p>O DevClash é uma aplicação web educacional desenvolvida para apoiar a revisão de conhecimentos relacionados a SQL, PostgreSQL, modelagem de dados e temas de tecnologia. O sistema apresenta perguntas de múltipla escolha, cronômetro, pontuação variável, explicações após cada resposta e classificação dos participantes. A solução utiliza HTML, CSS e JavaScript no frontend; Node.js e Express no backend; e PostgreSQL para armazenar perguntas, jogadores, partidas e respostas. Sua modelagem relacional distribui as informações em sete tabelas, com chaves e restrições destinadas a manter a consistência dos dados. Este artigo documenta a implementação descrita nos materiais técnicos do projeto, incluindo funcionamento, estrutura, integração, implantação e limitações identificadas.</p>
+        <p>O DevClash é uma aplicação web educacional desenvolvida para apoiar a revisão de conhecimentos técnicos por meio de 50 perguntas: 40 sobre SQL e 10 perguntas bônus sobre a história da tecnologia. O sistema apresenta perguntas de múltipla escolha, cronômetro, pontuação variável, explicações após cada resposta e classificação dos participantes. A solução utiliza HTML, CSS e JavaScript no frontend; Node.js e Express no backend; e PostgreSQL para armazenar perguntas, jogadores, partidas e respostas. Sua modelagem relacional distribui as informações em sete tabelas, com chaves e restrições destinadas a manter a consistência dos dados. Este artigo documenta a implementação descrita nos materiais técnicos do projeto, incluindo funcionamento, estrutura, integração, implantação e limitações identificadas.</p>
         <p class="palavras"><strong>Palavras-chave:</strong> DevClash; quiz educacional; JavaScript; Node.js; PostgreSQL; modelagem relacional; API REST.</p>
       </section>
 
@@ -125,7 +125,7 @@
 
       <section id="funcionamento">
         <h2>5. Funcionamento do DevClash</h2>
-        <p>O participante informa um nome de até 20 caracteres e inicia o quiz. A versão analisada pelos documentos reúne 45 questões, das quais 5 são identificadas como bônus. As questões são preparadas e apresentadas por dificuldade, com alternativas embaralhadas. A sinalização de bônus não adiciona um multiplicador de pontos.</p>
+        <p>O participante informa um nome de até 20 caracteres e inicia o quiz. O quiz reúne 50 perguntas, sendo 40 sobre SQL e 10 perguntas bônus sobre a história da tecnologia. As questões são preparadas e apresentadas por dificuldade, com alternativas embaralhadas. A sinalização de bônus não adiciona um multiplicador de pontos.</p>
         <p>Cada pergunta tem 50 segundos. Após a confirmação de uma resposta, o sistema informa o acerto ou erro, apresenta uma explicação e disponibiliza a fonte correspondente. Ao fim da partida, mostra os totais e tenta registrar o resultado no servidor.</p>
         <h3>5.1 Regras de pontuação</h3>
         <div class="tabela">
@@ -142,7 +142,7 @@
             </tbody>
           </table>
         </div>
-        <p>A pontuação máxima teórica de uma rodada com 45 questões é de 450 pontos. O ranking remoto considera a melhor partida de cada jogador; no desempate, prioriza o menor tempo total e, depois, a partida mais antiga.</p>
+        <p>A pontuação máxima teórica de uma rodada com 50 questões é de 500 pontos. O ranking remoto considera a melhor partida de cada jogador; no desempate, prioriza o menor tempo total e, depois, a partida mais antiga.</p>
         <h3>5.2 Mascote Claudinho</h3>
         <p>O mascote Claudinho participa da experiência por meio de expressões, reações e mensagens relacionadas aos eventos do jogo. A documentação também descreve a reprodução opcional de clipes de áudio em MP3, com controle de preferência pelo usuário.</p>
       </section>
@@ -192,7 +192,7 @@
             <thead><tr><th>Método</th><th>Rota</th><th>Finalidade</th></tr></thead>
             <tbody>
               <tr><td><code>GET</code></td><td><code>/api/health</code></td><td>Verificar disponibilidade da aplicação e do PostgreSQL.</td></tr>
-              <tr><td><code>GET</code></td><td><code>/api/questions?limit=45</code></td><td>Obter questões ativas para a partida.</td></tr>
+              <tr><td><code>GET</code></td><td><code>/api/questions?limit=50</code></td><td>Obter questões ativas para a partida.</td></tr>
               <tr><td><code>POST</code></td><td><code>/api/matches</code></td><td>Validar e registrar uma partida.</td></tr>
               <tr><td><code>GET</code></td><td><code>/api/ranking?limit=10&amp;player=Nome</code></td><td>Consultar as melhores partidas e a posição do jogador.</td></tr>
             </tbody>
@@ -289,11 +289,7 @@ LIMIT 10;</code></pre>
             <a href="https://github.com/matheussilvacsbrazcubas" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Matheus Alves da Silva">GitHub <span aria-hidden="true">↗</span></a>
           </div>
           <div class="author-card">
-            <div class="author-title"><span class="author-index">04</span><h3>Gabriel Tavares Moura Dias</h3></div>
-            <a href="https://github.com/Gabrix01" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Gabriel Tavares Moura Dias">GitHub <span aria-hidden="true">↗</span></a>
-          </div>
-          <div class="author-card">
-            <div class="author-title"><span class="author-index">05</span><h3>Eduardo Elioterio de Oliveira</h3></div>
+            <div class="author-title"><span class="author-index">04</span><h3>Eduardo Elioterio de Oliveira</h3></div>
             <a href="https://github.com/wilkenoliver" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Eduardo Elioterio de Oliveira">GitHub <span aria-hidden="true">↗</span></a>
           </div>
         </div>
